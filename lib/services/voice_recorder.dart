@@ -5,6 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class VoiceRecorder {
   final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
+  final FlutterSoundPlayer _player = FlutterSoundPlayer();
   String? _audioPath;
 
   Future<void> initRecorder() async {
@@ -28,7 +29,30 @@ class VoiceRecorder {
     return null;
   }
 
+  Future<void> playAudio(Uint8List audioBytes) async {
+    try {
+      if (!_player.isOpen()) {
+        print("Opening player...");
+        await _player.openPlayer();
+        print("Player opened.");
+      }
+      print("Starting playback...");
+      await _player.startPlayer(fromDataBuffer: audioBytes);
+      print("Playback started.");
+    } catch (e) {
+      print("Error during playback: $e");
+    }
+  }
+
+
+  Future<void> stopAudio() async {
+    if (_player.isPlaying) {
+      await _player.stopPlayer();
+    }
+  }
+
   void dispose() {
     _recorder.closeRecorder();
+    _player.closePlayer();
   }
 }

@@ -15,8 +15,11 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   void addMessage(Message message) {
+    print("Adding message: isAudio=${message.isAudio}, audioBytes length=${message.audioBytes?.length}");
     final updatedMessages = List<Message>.from(state.messages)..add(message);
     emit(ChatState(updatedMessages));
+    print("Message: isAudio=${message.isAudio}, audioBytes=${message.audioBytes}");
+
   }
 
   void sendMessage(String content) {

@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/chat_bloc.dart';
+import '../blocs/chat_cubit.dart';
 import '../blocs/chat_state.dart';
 import '../services/voice_recorder.dart';
 
@@ -22,12 +22,30 @@ class ChatPage extends StatelessWidget {
                   itemCount: state.messages.length,
                   itemBuilder: (context, index) {
                     final message = state.messages[index];
-                    if (message.isAudio) {
+                    if (message.isAudio && message.audioBytes != null) {
                       return Align(
                         alignment: message.isSentByUser
                             ? Alignment.centerRight
                             : Alignment.centerLeft,
-                        child: Text(message.content), // Replace with audio playback logic
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.play_arrow),
+                              onPressed: () async {
+                                await _voiceRecorder.playAudio(message.audioBytes!);
+                                print("Audio message UI created");
+
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.stop),
+                              onPressed: () async {
+                                await _voiceRecorder.stopAudio();
+                              },
+                            ),
+                          ],
+                        ),
                       );
                     }
                     return Align(

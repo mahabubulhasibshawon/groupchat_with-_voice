@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ui/chat_page.dart';
 import 'services/websocket_service.dart';
-import 'blocs/chat_bloc.dart';
+import 'blocs/chat_cubit.dart';
 
 void main() {
   final websocketService = WebSocketService('wss://chat.shohayok.com/ws');
