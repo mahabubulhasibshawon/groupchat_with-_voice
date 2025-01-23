@@ -1,6 +1,6 @@
 # group_chat_websocket_3
 
-A new Flutter project.
+A new Flutter project about group message chatting. where multiple user can send and recieve message in realtime. Here we are using websocket for realtime messaging
 
 ## Getting Started
 
