@@ -2,6 +2,11 @@
 
 A new Flutter project about group message chatting. where multiple user can send and recieve message in realtime. Here we are using websocket for realtime messaging
 
+## Screen records
+https://github.com/user-attachments/assets/1a380a1a-159c-4ffd-8e57-3e86e7f87bd4
+
+https://github.com/user-attachments/assets/12cc64c7-396d-4ae4-be5d-9e02610f41a4
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
