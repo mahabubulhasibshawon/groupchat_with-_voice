@@ -4,7 +4,7 @@ A new Flutter project about group message chatting. where multiple user can send
 
 ## Screen records
 ![img.png](img.png)
-!https://github.com/user-attachments/assets/55287012-583c-4c3c-9f16-2b1a3b8e4ea4
+https://github.com/user-attachments/assets/55287012-583c-4c3c-9f16-2b1a3b8e4ea4
 https://github.com/user-attachments/assets/1a380a1a-159c-4ffd-8e57-3e86e7f87bd4
 
 https://github.com/user-attachments/assets/12cc64c7-396d-4ae4-be5d-9e02610f41a4
