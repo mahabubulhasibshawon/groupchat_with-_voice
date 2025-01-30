@@ -1,15 +1,16 @@
 import 'dart:typed_data';
 
+
 class Message {
-  final String content;
   final bool isSentByUser;
   final bool isAudio;
-  final Uint8List? audioBytes;
+  final String? textContent; // For text messages
+  final Uint8List? audioBytes; // For audio messages
 
   Message({
-    required this.content,
     required this.isSentByUser,
-    this.isAudio = false,
-    this.audioBytes,
+    required this.isAudio,
+    this.textContent,  // Nullable for audio messages
+    this.audioBytes,   // Nullable for text messages
   });
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/chat_cubit.dart';
 import '../blocs/chat_state.dart';
+import '../models/message.dart';
 import '../services/voice_recorder.dart';
 
 class ChatPage extends StatelessWidget {
@@ -22,20 +23,26 @@ class ChatPage extends StatelessWidget {
                   itemCount: state.messages.length,
                   itemBuilder: (context, index) {
                     final message = state.messages[index];
-                    if (message.isAudio && message.audioBytes != null) {
-                      return Align(
-                        alignment: message.isSentByUser
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Row(
+
+                    return Align(
+                      alignment: message.isSentByUser
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        decoration: BoxDecoration(
+                          color: message.isSentByUser ? Colors.blue[100] : Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: message.isAudio && message.audioBytes != null
+                            ? Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
                               icon: Icon(Icons.play_arrow),
                               onPressed: () async {
                                 await _voiceRecorder.playAudio(message.audioBytes!);
-                                print("Audio message UI created");
-
                               },
                             ),
                             IconButton(
@@ -45,23 +52,8 @@ class ChatPage extends StatelessWidget {
                               },
                             ),
                           ],
-                        ),
-                      );
-                    }
-                    return Align(
-                      alignment: message.isSentByUser
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: message.isSentByUser
-                              ? Colors.blue[100]
-                              : Colors.grey[200],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(message.content),
+                        )
+                            : Text(message.textContent ?? "Error: No text content"),
                       ),
                     );
                   },
@@ -69,6 +61,7 @@ class ChatPage extends StatelessWidget {
               },
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -79,7 +72,10 @@ class ChatPage extends StatelessWidget {
                     await _voiceRecorder.initRecorder();
                     final audioBytes = await _voiceRecorder.recordForTwoSeconds();
                     if (audioBytes != null) {
+                      print("Sending audio message. Bytes length: ${audioBytes.length}");
                       context.read<ChatCubit>().sendAudioMessage(audioBytes);
+                    } else {
+                      print("Recording failed or returned null.");
                     }
                   },
                 ),

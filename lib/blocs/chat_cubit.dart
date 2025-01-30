@@ -10,7 +10,7 @@ class ChatCubit extends Cubit<ChatState> {
 
   ChatCubit(this.service) : super(ChatState([])) {
     service.messages.listen((data) {
-      addMessage(Message(content: data, isSentByUser: false));
+      addMessage(Message(textContent: data, isSentByUser: false, isAudio: false));
     });
   }
 
@@ -24,15 +24,18 @@ class ChatCubit extends Cubit<ChatState> {
 
   void sendMessage(String content) {
     service.sendMessage(content);
-    addMessage(Message(content: content, isSentByUser: true));
+    addMessage(Message(textContent: content, isSentByUser: true, isAudio: false));
   }
-
   void sendAudioMessage(Uint8List audioBytes) {
-    service.sendAudioBytes(audioBytes);
-    addMessage(Message(content: "[Voice Message]", isSentByUser: true, isAudio: true));
+    print("Adding audio message. Bytes length: ${audioBytes.length}");
+
+    addMessage(Message(
+      isSentByUser: true,
+      isAudio: true,
+      textContent: null, // No text content for audio messages
+      audioBytes: audioBytes,
+    ));
   }
-
-
 
   @override
   Future<void> close() {
